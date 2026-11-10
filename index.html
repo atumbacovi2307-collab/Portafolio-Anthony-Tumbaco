@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anthony Tumbaco — Portafolio periodístico</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0f0e0d;
+    --paper: #f5f0e8;
+    --accent: #c8392b;
+    --mid: #6b6560;
+    --rule: #d4cdc4;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.4;
+  }
+
+  /* HEADER */
+  header {
+    border-bottom: 3px double var(--ink);
+    padding: 3rem 2rem 2rem;
+    text-align: center;
+    position: relative;
+  }
+
+  .masthead-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 1rem;
+  }
+
+  .masthead-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+  }
+
+  .masthead-name em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .masthead-tagline {
+    margin-top: 1.2rem;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--mid);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 0.6rem 0;
+    display: inline-block;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .header-meta {
+    margin-top: 1.2rem;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    font-size: 0.8rem;
+    color: var(--mid);
+  }
+
+  .header-meta a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+  }
+
+  .header-meta a:hover { border-color: var(--accent); }
+
+  /* INTRO */
+  .intro {
+    max-width: 680px;
+    margin: 3rem auto;
+    padding: 0 2rem;
+    text-align: center;
+  }
+
+  .intro p {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-style: italic;
+    color: var(--mid);
+    line-height: 1.8;
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+  }
+
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  .divider span {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--mid);
+    white-space: nowrap;
+  }
+
+  /* PIECES GRID */
+  .pieces {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem 4rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .piece {
+    border-top: 1px solid var(--rule);
+    padding: 2.5rem 0;
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: 2rem;
+    align-start: start;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.6s forwards;
+  }
+
+  .piece:nth-child(1) { animation-delay: 0.1s; }
+  .piece:nth-child(2) { animation-delay: 0.2s; }
+  .piece:nth-child(3) { animation-delay: 0.3s; }
+  .piece:nth-child(4) { animation-delay: 0.4s; }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .piece-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    font-weight: 900;
+    color: var(--rule);
+    line-height: 1;
+    padding-top: 0.2rem;
+  }
+
+  .piece-body { min-width: 0; }
+
+  .piece-category {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.4rem;
+  }
+
+  .piece-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 0.8rem;
+  }
+
+  .piece-desc {
+    font-size: 0.9rem;
+    color: var(--mid);
+    line-height: 1.7;
+    max-width: 600px;
+  }
+
+  .piece-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 1rem;
+  }
+
+  .tag {
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 1px solid var(--rule);
+    padding: 0.2rem 0.6rem;
+    color: var(--mid);
+    border-radius: 2px;
+  }
+
+  .piece-cta {
+    flex-shrink: 0;
+    align-self: flex-start;
+    margin-top: 0.3rem;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--ink);
+    color: var(--paper);
+    text-decoration: none;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.6rem 1.2rem;
+    transition: background 0.2s, color 0.2s;
+    white-space: nowrap;
+  }
+
+  .btn:hover {
+    background: var(--accent);
+  }
+
+  .btn svg {
+    width: 12px;
+    height: 12px;
+    fill: currentColor;
+  }
+
+  /* FEATURED piece */
+  .piece.featured {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 2.5rem;
+    margin-bottom: 0;
+    border-top: none;
+  }
+
+  .piece.featured .piece-number { color: rgba(255,255,255,0.1); }
+  .piece.featured .piece-category { color: #e8856e; }
+  .piece.featured .piece-desc { color: rgba(245,240,232,0.7); }
+  .piece.featured .tag { border-color: rgba(255,255,255,0.2); color: rgba(245,240,232,0.6); }
+  .piece.featured .btn { background: var(--accent); color: white; }
+  .piece.featured .btn:hover { background: #a82d22; }
+
+  /* FOOTER */
+  footer {
+    border-top: 3px double var(--ink);
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .footer-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    font-size: 0.8rem;
+    color: var(--mid);
+  }
+
+  .footer-links a {
+    color: var(--mid);
+    text-decoration: none;
+    border-bottom: 1px solid var(--rule);
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* RESPONSIVE */
+  @media (max-width: 640px) {
+    .piece {
+      grid-template-columns: 50px 1fr;
+    }
+    .piece-cta {
+      grid-column: 2;
+    }
+    .piece-number { font-size: 2.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <p class="masthead-label">Portafolio periodístico</p>
+  <h1 class="masthead-name">Anthony<br><em>Tumbaco</em></h1>
+  <p class="masthead-tagline">Periodismo · Reportaje · Entrevista · Análisis cultural</p>
+  <div class="header-meta">
+    <span>📍 Madrid</span>
+    <a href="mailto:atumbacovi2307@gmail.com">atumbacovi2307@gmail.com</a>
+    <a href="https://www.instagram.com/clicinformativo" target="_blank">@clicinformativo</a>
+    <span>Universidad Carlos III de Madrid</span>
+  </div>
+</header>
+
+<section class="intro">
+  <p>Cuatro piezas. Cuatro historias que no estaban en ningún sitio antes de que fui a buscarlas.</p>
+</section>
+
+<div class="divider"><span>Trabajos</span></div>
+
+<section class="pieces">
+
+  <!-- FEATURED -->
+  <article class="piece featured">
+    <div class="piece-number">01</div>
+    <div class="piece-body">
+      <p class="piece-category">⭐ Reportaje social · Destacado</p>
+      <h2 class="piece-title">De Cali a Madrid: el comienzo verdadero de una familia que decidió cambiar su destino</h2>
+      <p class="piece-desc">Ocho meses de seguimiento a una familia colombiana que lo dejó todo en Cali para que su hija pudiera estudiar en España. Una historia de migración, sacrificio y adaptación — con el devastador pasado del volcán Armero como telón de fondo.</p>
+      <div class="piece-tags">
+        <span class="tag">Migración</span>
+        <span class="tag">Periodismo social</span>
+        <span class="tag">Fuentes directas</span>
+        <span class="tag">Largo aliento</span>
+      </div>
+    </div>
+    <div class="piece-cta">
+      <a href="https://drive.google.com/file/d/17aCqniWKVjWvJFYwGZx0V6jsmDOFZzLy/view?usp=drivesdk" target="_blank" class="btn">
+        Leer
+        <svg viewBox="0 0 16 16"><path d="M6 3l5 5-5 5V3z"/></svg>
+      </a>
+    </div>
+  </article>
+
+  <!-- PIECE 2 -->
+  <article class="piece">
+    <div class="piece-number">02</div>
+    <div class="piece-body">
+      <p class="piece-category">Entrevista · Migración irregular</p>
+      <h2 class="piece-title">"En el Darién había muerte, robos, gente herida… pero eso no me detuvo"</h2>
+      <p class="piece-desc">Entrevista exclusiva a un migrante ecuatoriano que cruzó la selva del Darién y llegó a Nueva Jersey. Un testimonio de primera mano sobre la ruta más peligrosa del continente, obtenido por videollamada con una fuente que vive con miedo a ser deportada.</p>
+      <div class="piece-tags">
+        <span class="tag">Entrevista</span>
+        <span class="tag">Migración</span>
+        <span class="tag">Ecuador</span>
+        <span class="tag">EE.UU.</span>
+      </div>
+    </div>
+    <div class="piece-cta">
+      <a href="https://drive.google.com/file/d/1gmqayY3memx5f_2C_t_pQo20gceWYWJv/view?usp=drivesdk" target="_blank" class="btn">
+        Leer
+        <svg viewBox="0 0 16 16"><path d="M6 3l5 5-5 5V3z"/></svg>
+      </a>
+    </div>
+  </article>
+
+  <!-- PIECE 3 -->
+  <article class="piece">
+    <div class="piece-number">03</div>
+    <div class="piece-body">
+      <p class="piece-category">Reportaje · Comunidad</p>
+      <h2 class="piece-title">Vallecas canta en ucraniano: la iglesia Salvación de Dios como punto de esperanza para una comunidad exiliada</h2>
+      <p class="piece-desc">En una calle del barrio obrero de Vallecas, una pequeña iglesia ucraniana funciona como refugio, asesoría legal, apoyo escolar y red de contención emocional para familias que huyeron de la guerra. Reportaje con acceso directo a la comunidad.</p>
+      <div class="piece-tags">
+        <span class="tag">Periodismo de comunidad</span>
+        <span class="tag">Ucrania</span>
+        <span class="tag">Madrid</span>
+        <span class="tag">Guerra</span>
+      </div>
+    </div>
+    <div class="piece-cta">
+      <a href="https://drive.google.com/file/d/1OFzWLNqwSSZGW-K5qrqzBTarQTZlFvJt/view?usp=drivesdk" target="_blank" class="btn">
+        Leer
+        <svg viewBox="0 0 16 16"><path d="M6 3l5 5-5 5V3z"/></svg>
+      </a>
+    </div>
+  </article>
+
+  <!-- PIECE 4 -->
+  <article class="piece">
+    <div class="piece-number">04</div>
+    <div class="piece-body">
+      <p class="piece-category">Análisis · Cultura · Cine</p>
+      <h2 class="piece-title">Del humor a la sensibilidad: lo políticamente correcto en el cine y las series españolas</h2>
+      <p class="piece-desc">Análisis de cómo el audiovisual español ha evolucionado desde el humor sin filtros de los 90 hasta la representación inclusiva actual. Con fuentes académicas de la Universidad Carlos III, un guionista en activo y un joven director premiado.</p>
+      <div class="piece-tags">
+        <span class="tag">Análisis cultural</span>
+        <span class="tag">Cine</span>
+        <span class="tag">Series</span>
+        <span class="tag">Fuentes expertas</span>
+      </div>
+    </div>
+    <div class="piece-cta">
+      <a href="https://drive.google.com/file/d/1AEivOjF-pxYYfU8SYZVM3TW7j01o82w9/view?usp=drivesdk" target="_blank" class="btn">
+        Leer
+        <svg viewBox="0 0 16 16"><path d="M6 3l5 5-5 5V3z"/></svg>
+      </a>
+    </div>
+  </article>
+
+</section>
+
+<footer>
+  <p class="footer-name">Anthony Tumbaco Villavicencio</p>
+  <div class="footer-links">
+    <a href="mailto:atumbacovi2307@gmail.com">atumbacovi2307@gmail.com</a>
+    <a href="https://www.instagram.com/clicinformativo" target="_blank">@clicinformativo</a>
+    <span>624 606 329</span>
+  </div>
+</footer>
+
+</body>
+</html>
